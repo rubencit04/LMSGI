@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://example.com/empresa" xmlns="http://example.com/empresa" elementFormDefault="qualified">
+
+  <xs:simpleType name="SalarioType">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="900"/>
+      <xs:maxInclusive value="5000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TipoViaType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="calle"/>
+      <xs:enumeration value="plaza"/>
+      <xs:enumeration value="via"/>
+      <xs:enumeration value="camino"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PaisType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="espana"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MonedaType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="euros"/>
+      <xs:enumeration value="dolares"/>
+      <xs:enumeration value="yenes"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DireccionEmpleadoType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="250"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FechaCreacionType">
+    <xs:restriction base="xs:date"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="DNIType">
+    <xs:restriction base="xs:string">
+      <xs:length value="8"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NombreEmpresaType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="3"/>
+      <xs:maxLength value="15"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="NIFType">
+    <xs:restriction base="xs:string">
+      <xs:length value="9"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BooleanType">
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+
+  <xs:element name="empresa">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="nombre" type="NombreEmpresaType"/>
+        <xs:element name="nif" type="NIFType"/>
+        <xs:element name="espanola" type="BooleanType"/>
+        <xs:element name="capitalsocial">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:double">
+                <xs:attribute name="moneda" type="MonedaType" use="required"/>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="direccion">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tipoVia" type="TipoViaType"/>
+              <xs:element name="nombreVia" type="xs:string"/>
+              <xs:element name="CP" type="xs:int"/>
+              <xs:element name="pais" type="PaisType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="empleados">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="empleado" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="nombre" type="xs:string"/>
+                    <xs:element name="apellidos" type="xs:string"/>
+                    <xs:element name="DNI" type="DNIType"/>
+                    <xs:element name="extranjero" type="BooleanType"/>
+                    <xs:element name="fechaNacimiento" type="xs:date"/>
+                    <xs:element name="salario" type="SalarioType"/>
+                    <xs:element name="direccion" type="DireccionEmpleadoType"/>
+                    <xs:element name="estaCasado" type="BooleanType" minOccurs="0"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="pais" type="PaisType" use="required"/>
+      <xs:attribute name="fechaCreacion" type="FechaCreacionType" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
